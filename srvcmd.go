@@ -45,6 +45,7 @@ func srvcmd(cn net.Conn) {
 
 	sc := bufio.NewScanner(cn)
 	for scanTimeout(cn, sc) {
+		cn.SetReadDeadline(time.Time{})
 		err := runcmd(sc.Text(), cn)
 		if err != nil {
 			log.Println("Error:", err)
@@ -61,13 +62,14 @@ func srvcmd(cn net.Conn) {
 }
 
 // runcmd runs the command in line through the entrypoint
-func runcmd(line string, w io.Writer) error {
+func runcmd(line string, rw io.ReadWriter) error {
 	log.Printf("Executing %s %q\n", *entrypoint, line)
 	fields := strings.Fields(*entrypoint)
 	fields = append(fields, line)
 	cmd := exec.Command(fields[0], fields[1:]...)
-	cmd.Stdout = w
-	cmd.Stderr = w
+	cmd.Stdin = rw
+	cmd.Stdout = rw
+	cmd.Stderr = rw
 	return cmd.Run()
 }
 
