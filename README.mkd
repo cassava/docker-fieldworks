@@ -9,6 +9,7 @@ inside a Docker container. This is an attempt to do precisely that.
 Assuming that you already have Docker installed, build the image by running the
 following command in this directory:
 
+    sed -i "s/uid=1000 gid=100/uid=$(id -u) gid=$(id -g)/" Dockerfile
     docker build -t fieldworks .
 
 ## Starting FieldWorks
