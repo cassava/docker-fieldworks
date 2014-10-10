@@ -1,9 +1,12 @@
 #!/bin/sh
 
-user=1002
+user=1000
 prog="fieldworks-flex"
 if [[ ! -z $1 ]]; then
-    prog=$1 
+    user=$1
+fi
+if [[ ! -z $2 ]]; then
+    prog=$2
 fi
 
 if [[ $(id -u) -ne $user ]]; then
@@ -11,9 +14,10 @@ if [[ $(id -u) -ne $user ]]; then
     exit 1
 fi
 
-echo "echo Checking connectivity." | nc localhost 3030
+echo "echo Connectivity OK, FieldWorks Docker image already started." | nc localhost 3030
 if [[ $? -ne 0 ]]; then
-    docker run --rm -p 3030:3030 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/home/you fieldworks:latest
+    docker run -d -p 3030:3030 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix fieldworks:latest
+    sleep 1
 fi
 
 echo $prog | nc localhost 3030

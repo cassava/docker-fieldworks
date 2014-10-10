@@ -24,8 +24,11 @@ RUN add-apt-repository "deb http://packages.sil.org/ubuntu trusty main" && \
     echo fieldworks-applications fieldworks/license/cpol-accepted select true | debconf-set-selections && \
     apt-get update && apt-get install -y fieldworks fieldworks-applications flexbridge
 
+# Install Go, because we will need it in a moment
+RUN apt-get install -y golang-go
+
 # Replace 1000 and 100 with your user / group id
-RUN export uid=1002 gid=100 && \
+RUN export uid=1000 gid=100 && \
     mkdir -p /home/you && \
     echo "you:x:${uid}:${gid}:You,,,:/home/you:/bin/bash" >> /etc/passwd && \
     echo "you:x:${uid}:" >> /etc/group && \
@@ -37,8 +40,6 @@ RUN export uid=1002 gid=100 && \
 RUN adduser you fieldworks
 
 # Compile and install srvcmd
-RUN apt-get install -y golang-go
-
 USER you
 COPY srvcmd.go /home/you/srvcmd.go
 RUN cd /home/you && \
@@ -56,4 +57,4 @@ USER you
 ENV HOME /home/you
 ENV DEBIAN_FRONTEND text
 EXPOSE 3030
-ENTRYPOINT ["/usr/local/bin/srvcmd", "-listen=:3030", "-timeout=5000"]
+ENTRYPOINT ["/usr/local/bin/srvcmd", "-listen=:3030", "-timeout=1000"]
