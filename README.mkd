@@ -17,7 +17,7 @@ Because FieldWorks is comprised of multiple commands, we can't just run one of
 the applications in the container, instead, the container runs a proxy for the
 commands, which can be sent via `netcat`. We start the container by running:
 
-    docker run -ti --rm -p 3030:3030 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix fieldworks
+    docker run -ti --rm -p 3030:3030 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/home/you fieldworks
 
 Then we can run commands in the container by passing them to the proxy:
 
