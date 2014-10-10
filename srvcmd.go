@@ -67,7 +67,10 @@ func runcmd(line string, rw io.ReadWriter) error {
 	fields := strings.Fields(*entrypoint)
 	fields = append(fields, line)
 	cmd := exec.Command(fields[0], fields[1:]...)
-	cmd.Stdin = rw
+	// I would like to pass Stdin on to the program, but if I do
+	// this, then the timeout's don't work anymore, which is
+	// important!
+	// cmd.Stdin = rw
 	cmd.Stdout = rw
 	cmd.Stderr = rw
 	return cmd.Run()
