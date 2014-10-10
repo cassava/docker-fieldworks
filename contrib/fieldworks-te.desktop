@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=FieldWorks TE
+Comment=Start up FieldWorks via Docker
+Exec=/usr/local/bin/fieldworks.sh fieldworks-te
+Icon=ghex
+Terminal=false
+Categories=Languages;Office;

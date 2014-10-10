@@ -25,7 +25,7 @@ RUN add-apt-repository "deb http://packages.sil.org/ubuntu trusty main" && \
     apt-get update && apt-get install -y fieldworks fieldworks-applications flexbridge
 
 # Replace 1000 and 100 with your user / group id
-RUN export uid=1000 gid=100 && \
+RUN export uid=1002 gid=100 && \
     mkdir -p /home/you && \
     echo "you:x:${uid}:${gid}:You,,,:/home/you:/bin/bash" >> /etc/passwd && \
     echo "you:x:${uid}:" >> /etc/group && \
