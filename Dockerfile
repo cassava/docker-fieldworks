@@ -55,4 +55,4 @@ RUN apt-get autoremove --purge -y golang-go software-properties-common python-so
 USER you
 ENV HOME /home/you
 EXPOSE 3030
-ENTRYPOINT ["/usr/local/bin/srvcmd", "-listen=:3030"]
+ENTRYPOINT ["/usr/local/bin/srvcmd", "-listen=:3030", "-timeout=5000"]
