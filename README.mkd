@@ -1,0 +1,31 @@
+FieldWorks in Docker
+====================
+
+FieldWorks is supported by SIL only for Ubuntu. This is unfortunate if you are
+using a different distribution, but perhaps it is possible to run FieldWorks
+inside a Docker container. This is an attempt to do precisely that.
+
+## Building the Image
+Assuming that you already have Docker installed, build the image by running the
+following command in this directory:
+
+    docker build -t fieldworks .
+
+## Starting FieldWorks
+Because FieldWorks is comprised of multiple commands, we can't just run one of
+the applications in the container, instead, the container runs a proxy for the
+commands, which can be sent via `netcat`. We start the container by running:
+
+    docker run -ti --rm -p 3030:3030 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix fieldworks
+
+Then we can run commands in the container by passing them to the proxy:
+
+    echo "echo hello world" | nc localhost 3030
+
+Theoretically, you could just run `nc localhost 3030`, except that the proxy
+drops the connection if it has not read anything for more than 1 second.
+In particular however, you might want to use the following commands:
+
+    echo "fieldworks-flex" | nc localhost 3030
+    echo "fieldworks-te" | nc localhost 3030
+
