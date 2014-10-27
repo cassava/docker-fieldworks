@@ -32,7 +32,7 @@ RUN mkdir /var/run/sshd && \
     chown root:root /root/.ssh/authorized_keys
 
 # Add yourself
-RUN useradd -m you && \
+RUN useradd -m you -u 1002 && \
     adduser you fieldworks
 
 # Clean-up to reduce the image size
