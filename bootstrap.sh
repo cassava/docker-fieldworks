@@ -85,7 +85,7 @@ if get_image_id; then
 else
     echo "failed."
     echo "Building image ${name}:${tag}..."
-    echo build_image
+    build_image
     get_image_id
 fi
 
@@ -96,7 +96,7 @@ if get_container_id; then
 else
     echo "failed."
     echo "Creating container ${name}:${tag}..."
-    echo create_container
+    create_container
     get_container_id
 fi
 
