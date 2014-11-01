@@ -53,7 +53,7 @@ function build_image() {
 }
 
 function create_container() {
-    docker create -p 2020:22 -e DISPLAY=${display} -v /tmp/.X11-unix:/tmp.X11-unix -v ${home}:/home/you "${name}:${tag}"
+    docker create -p 2020:22 -e DISPLAY=${display} -v /tmp/.X11-unix:/tmp/.X11-unix -v ${home}:/home/you "${name}:${tag}"
 }
 
 function get_container_id() {
@@ -102,12 +102,11 @@ fi
 
 start_container ${container_id}
 
-echo "Installing scripts..."
+echo "Installing desktop entries..."
 desktop_dest=${home}/.local/share/applications
 install -m644 -o${user_id} -g${group_id} fieldworks-flex.desktop fieldworks-te.desktop ${desktop_dest}/
 cd ${desktop_dest}
 sed -e "s/{{container_id}}/${container_id}/" -i fieldworks-flex.desktop fieldworks-te.desktop
-cd -
 
 echo "All done!"
 exit 0
