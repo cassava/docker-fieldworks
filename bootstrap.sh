@@ -4,7 +4,7 @@
 
 name="fieldworks"
 version=8.1.1
-release=4
+release=7
 tag="${version}-${release}"
 
 display=$DISPLAY
@@ -47,7 +47,11 @@ function get_container_id() {
 function build_image() {
     echo "Using user ID ${user_id} and home directory ${home}."
     sed -re "s/(.*useradd.*-u *)[0-9]+(.*)/\1${user_id}\2/" -i Dockerfile
-    docker build --no-cache -t "${name}:${tag}" .
+    if [[ $use_cache -eq 0 ]]; then
+        docker build --no-cache -t "${name}:${tag}" .
+    else
+        docker build -t "${name}:${tag}" .
+    fi
     get_image_id
     docker tag ${image_id} "${name}:latest"
 }
@@ -70,6 +74,10 @@ function start_container() {
     fi
 }
 
+use_cache=0
+if [[ $1 == "--use-cache" ]]; then
+    use_cache=1
+fi
 
 echo "Fieldworks in Docker Setup"
 echo ""

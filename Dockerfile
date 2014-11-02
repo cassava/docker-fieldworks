@@ -40,7 +40,8 @@ RUN apt-get clean
 
 # Set up final image
 ENV DEBIAN_FRONTEND text
+ENV HOME /home/you
+USER you
 
-# Start the ssh daemon
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+# Start doing nothing
+CMD ["/usr/bin/tail", "-f", "/dev/null"]
