@@ -4,7 +4,7 @@
 
 name="fieldworks"
 version=8.1.1
-release=7
+release=8
 tag="${version}-${release}"
 
 display=$DISPLAY

@@ -6,8 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Make sure the base system is up-to-date
 RUN apt-get update && \
-    apt-get -yq upgrade && \
-    apt-get install -y openssh-server
+    apt-get -yq upgrade
 
 # Add universe and multiverse repositories to sources.list
 RUN apt-get install -y software-properties-common python-software-properties debconf-utils && \
@@ -25,11 +24,6 @@ RUN add-apt-repository "deb http://packages.sil.org/ubuntu precise main" && \
     echo fieldworks-applications fieldworks/license/cpol-accepted select true | debconf-set-selections && \
     apt-get update && apt-get install -y fieldworks fieldworks-applications flexbridge && \
     adduser root fieldworks
-
-# Configure SSH
-ADD ssh/id_rsa.pub /root/.ssh/authorized_keys
-RUN mkdir /var/run/sshd && \
-    chown root:root /root/.ssh/authorized_keys
 
 # Add yourself
 RUN useradd -m you -u 1000 && \
