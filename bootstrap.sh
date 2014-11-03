@@ -4,10 +4,13 @@
 
 name="fieldworks"
 version=8.1.1
-release=8
+release=9
 tag="${version}-${release}"
 
 display=$DISPLAY
+if [[ -z $display ]]; then
+    display=":0.0"
+fi
 
 home=$HOME
 function get_home() {
@@ -112,9 +115,11 @@ start_container ${container_id}
 
 echo "Installing desktop entries..."
 desktop_dest=${home}/.local/share/applications
+autostart_dest=${home}/.config/autostart
 install -m644 -o${user_id} -g${group_id} fieldworks-flex.desktop fieldworks-te.desktop ${desktop_dest}/
-cd ${desktop_dest}
-sed -e "s/{{container_id}}/${container_id}/" -i fieldworks-flex.desktop fieldworks-te.desktop
+install -m644 -o${user_id} -g${group_id} docker-fieldworks.desktop ${autostart_dest}/
+sed -e "s/{{container_id}}/${container_id}/" -i "${desktop_dest}/fieldworks-flex.desktop" "${desktop_dest}/fieldworks-te.desktop"
+sed -e "s/{{container_id}}/${container_id}/" -i "${autostart_dest}/docker-fieldworks.desktop"
 
 echo "All done!"
 exit 0
